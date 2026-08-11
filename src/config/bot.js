@@ -376,22 +376,13 @@ export const botConfig = {
     // Goodbye template posted when a user leaves.
     // Placeholders: {user}, {memberCount}
     defaultGoodbyeMessage:
-      "{user} has left the server. We now have {memberCount} members.",
+      "{user} has left the  server. We now have {memberCount} members.",
     // Channel ID for welcome messages.
     defaultWelcomeChannel: null,
     // Channel ID for goodbye messages.
     defaultGoodbyeChannel: null,
   },
-banDM: {
-    // Whether to DM a message to a user when they're banned.
-    enabled: true,
-    // Message sent via DM before the ban executes.
-    // Placeholders: {user}, {server}, {reason}, {moderator}
-    defaultBanMessage:
-        "You have been banned from {server}.\nReason: {reason}",
-},
-
-
+  
   // =========================
   // COUNTER CHANNELS
   // =========================
