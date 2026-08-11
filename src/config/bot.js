@@ -382,6 +382,14 @@ export const botConfig = {
     // Channel ID for goodbye messages.
     defaultGoodbyeChannel: null,
   },
+banDM: {
+    // Whether to DM a message to a user when they're banned.
+    enabled: true,
+    // Message sent via DM before the ban executes.
+    // Placeholders: {user}, {server}, {reason}, {moderator}
+    defaultBanMessage:
+        "You have been banned from {server}.\nReason: {reason}",
+},
 
 
   // =========================
