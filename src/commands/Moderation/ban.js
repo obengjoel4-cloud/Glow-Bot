@@ -40,6 +40,22 @@ export default {
                 'You cannot ban yourself.',
             );
         }
+                // Send ban DM before the ban executes (user must share a guild to receive it)
+        if (config.banDM?.enabled) {
+            const dmMessage = config.banDM.defaultBanMessage
+                .replace("{user}", user.username)
+                .replace("{server}", interaction.guild.name)
+                .replace("{reason}", reason)
+                .replace("{moderator}", interaction.user.tag);
+
+            try {
+                await user.send(dmMessage);
+            } catch (err) {
+                console.warn(`Could not DM ${user.tag}: ${err.message}`);
+            }
+        }
+
+
         if (user.id === client.user.id) {
             throw new TitanBotError(
                 'Cannot ban bot',
