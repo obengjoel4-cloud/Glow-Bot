@@ -42,7 +42,14 @@ export default {
             });
             return;
         }
-
+banDM: {
+    // Whether to DM a message to a user when they're banned.
+    enabled: true,
+    // Message sent via DM before the ban executes.
+    // Placeholders: {user}, {server}, {reason}, {moderator}
+    defaultBanMessage:
+        "Bloat Boys:  You have been kicked from our server for:{reason}. If you want to appeal, join: [https://discord.gg/jQRgQRDqEe]",
+},
     const targetUser = interaction.options.getUser("user");
         const message = interaction.options.getString("message");
         const anonymous = interaction.options.getBoolean("anonymous") || false;
