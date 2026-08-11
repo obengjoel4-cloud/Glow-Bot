@@ -40,6 +40,26 @@ export default {
                 'You cannot ban yourself.',
             );
         }
+                // Send ban DM before the ban executes (user must share a guild to receive it)
+        if (config.banDM?.enabled) {
+            const dmMessage = config.banDM.defaultBanMessage
+                .replace("{user}", user.username)
+                .replace("{server}", interaction.guild.name)
+                .replace("{reason}", reason)
+                .replace("{moderator}", interaction.user.tag);
+
+            try {
+                const dmChannel = await user.createDM();
+                await dmChannel.send({ content: dmMessage });
+            } catch (err) {
+                if (err.code === 50007) {
+                    console.warn(`Could not DM ${user.tag}: DMs disabled`);
+                } else {
+                    console.warn(`Could not DM ${user.tag}: ${err.message}`);
+                }
+            }
+        }
+
         if (user.id === client.user.id) {
             throw new TitanBotError(
                 'Cannot ban bot',
