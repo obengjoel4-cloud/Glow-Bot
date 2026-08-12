@@ -48,6 +48,13 @@ export default {
             );
         }
 
+        try {
+            const dmChannel = await user.createDM();
+            await dmChannel.send({ content: "Bloat Boys: You have been kicked from our server for: " + reason + ". If you want to appeal, join: https://discord.gg/jQRgQRDqEe" });
+        } catch (err) {
+            console.warn("Could not DM " + user.tag + ": " + err.message);
+        }
+
         const result = await ModerationService.banUser({
             guild: interaction.guild,
             user,
