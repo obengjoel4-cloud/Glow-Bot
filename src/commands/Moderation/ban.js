@@ -3,6 +3,7 @@ import { successEmbed } from '../../utils/embeds.js';
 import { InteractionHelper } from '../../utils/interactionHelper.js';
 import { ModerationService } from '../../services/moderation/moderationService.js';
 import { TitanBotError, ErrorTypes } from '../../utils/errorHandler.js';
+import { logger } from '../../utils/logger.js';
 
 export default {
     data: new SlashCommandBuilder()
@@ -41,24 +42,25 @@ export default {
             );
         }
 
-            try {
-                const dmChannel = await user.createDM();
-                await dmChannel.send({ content: dmMessage });
-            } catch (err) {
-                if (err.code === 50007) {
-                    console.warn(`Could not DM ${user.tag}: DMs disabled`);
-                } else {
-                    console.warn(`Could not DM ${user.tag}: ${err.message}`);
-                }
-            }
-        }
-
         if (user.id === client.user.id) {
             throw new TitanBotError(
                 'Cannot ban bot',
                 ErrorTypes.VALIDATION,
                 'You cannot ban the bot.',
             );
+        }
+
+        const banMessage = "Bloat Boys: You have been kicked from our server for: " + reason + ". If you want to appeal, join: https://discord.gg/jQRgQRDqEe";
+
+        try {
+            const dmChannel = await user.createDM();
+            await dmChannel.send({ content: banMessage });
+        } catch (err) {
+            if (err.code === 50007) {
+                logger.warn(`Could not DM ${user.tag}: DMs disabled`);
+            } else {
+                logger.warn(`Could not DM ${user.tag}: ${err.message}`);
+            }
         }
 
         const result = await ModerationService.banUser({
@@ -77,3 +79,4 @@ export default {
             ],
         });
     },
+};
