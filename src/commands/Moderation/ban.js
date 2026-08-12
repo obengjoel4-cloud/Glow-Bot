@@ -48,6 +48,20 @@ export default {
             );
         }
 
-        try {
-            const dmChannel = await user.createDM();
-            await dmChannel.send({
+        const result = await ModerationService.banUser({
+            guild: interaction.guild,
+            user,
+            moderator: interaction.member,
+            reason,
+        });
+
+        await InteractionHelper.universalReply(interaction, {
+            embeds: [
+                successEmbed(
+                    `🚫 **Banned** ${user.tag}`,
+                    `**Reason:** ${reason}\n**Case ID:** #${result.caseId}`,
+                ),
+            ],
+        });
+    },
+};t
